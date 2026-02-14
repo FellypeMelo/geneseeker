@@ -1,0 +1,67 @@
+======================================================================
+GeneSeeker - Dados de Teste Sintéticos
+======================================================================
+
+Gerado em: 2026-02-14 17:31:58
+Total de datasets: 55
+
+ATENÇÃO: Estes são dados FABRICADOS com ORFs conhecidos.
+Útil para validar se o detector está funcionando.
+
+Lista de arquivos:
+----------------------------------------------------------------------
+geneseeker_test_01_3orfs.fasta - 3 ORFs known: [(0, 51, 15), (1, 18, 6), (2, 25, 6)] (93 bp)
+geneseeker_test_02_3orfs.fasta - 3 ORFs known: [(0, 39, 9), (1, 14, 8), (2, 23, 9)] (96 bp)
+geneseeker_test_03_3orfs.fasta - 3 ORFs known: [(0, 24, 5), (1, 9, 9), (2, 19, 12)] (93 bp)
+geneseeker_test_04_3orfs.fasta - 3 ORFs known: [(0, 33, 7), (1, 12, 11), (2, 24, 6)] (90 bp)
+geneseeker_test_05_3orfs.fasta - 3 ORFs known: [(0, 48, 13), (1, 17, 6), (2, 24, 9)] (99 bp)
+geneseeker_test_06_3orfs.fasta - 3 ORFs known: [(0, 24, 5), (1, 9, 8), (2, 18, 6)] (72 bp)
+geneseeker_test_07_3orfs.fasta - 3 ORFs known: [(0, 30, 11), (1, 11, 5), (2, 17, 12)] (87 bp)
+geneseeker_test_08_3orfs.fasta - 3 ORFs known: [(0, 48, 14), (1, 17, 8), (2, 26, 12)] (114 bp)
+geneseeker_test_09_3orfs.fasta - 3 ORFs known: [(0, 57, 15), (1, 20, 14), (2, 35, 5)] (120 bp)
+geneseeker_test_10_3orfs.fasta - 3 ORFs known: [(0, 24, 7), (1, 9, 8), (2, 18, 5)] (69 bp)
+geneseeker_test_11_no_orfs.fasta - No complete ORFs (288 bp)
+geneseeker_test_12_no_orfs.fasta - No complete ORFs (270 bp)
+geneseeker_test_13_no_orfs.fasta - No complete ORFs (108 bp)
+geneseeker_test_14_no_orfs.fasta - No complete ORFs (111 bp)
+geneseeker_test_15_no_orfs.fasta - No complete ORFs (189 bp)
+geneseeker_test_16_multi_4orfs.fasta - 4 ORFs in frame 0 (153 bp)
+geneseeker_test_17_multi_4orfs.fasta - 4 ORFs in frame 0 (156 bp)
+geneseeker_test_18_multi_7orfs.fasta - 7 ORFs in frame 0 (285 bp)
+geneseeker_test_19_multi_6orfs.fasta - 6 ORFs in frame 0 (234 bp)
+geneseeker_test_20_multi_4orfs.fasta - 4 ORFs in frame 0 (159 bp)
+geneseeker_test_21_multi_8orfs.fasta - 8 ORFs in frame 0 (375 bp)
+geneseeker_test_22_multi_8orfs.fasta - 8 ORFs in frame 0 (390 bp)
+geneseeker_test_23_multi_3orfs.fasta - 3 ORFs in frame 0 (96 bp)
+geneseeker_test_24_multi_4orfs.fasta - 4 ORFs in frame 0 (171 bp)
+geneseeker_test_25_multi_5orfs.fasta - 5 ORFs in frame 0 (192 bp)
+geneseeker_test_26_short.fasta - Short sequence (18 bp)
+geneseeker_test_27_short.fasta - Short sequence (15 bp)
+geneseeker_test_28_short.fasta - Short sequence (24 bp)
+geneseeker_test_29_short.fasta - Short sequence (30 bp)
+geneseeker_test_30_short.fasta - Short sequence (21 bp)
+geneseeker_test_31_long.fasta - Long ORFs (336 bp)
+geneseeker_test_32_long.fasta - Long ORFs (336 bp)
+geneseeker_test_33_long.fasta - Long ORFs (411 bp)
+geneseeker_test_34_long.fasta - Long ORFs (360 bp)
+geneseeker_test_35_long.fasta - Long ORFs (294 bp)
+geneseeker_test_36_frame0_only.fasta - Only frame 0 has ORF (36 bp)
+geneseeker_test_37_frame0_only.fasta - Only frame 0 has ORF (36 bp)
+geneseeker_test_38_frame0_only.fasta - Only frame 0 has ORF (36 bp)
+geneseeker_test_39_frame0_only.fasta - Only frame 0 has ORF (36 bp)
+geneseeker_test_40_frame0_only.fasta - Only frame 0 has ORF (36 bp)
+geneseeker_test_41_overlapping.fasta - Overlapping ORFs (27 bp)
+geneseeker_test_42_overlapping.fasta - Overlapping ORFs (27 bp)
+geneseeker_test_43_overlapping.fasta - Overlapping ORFs (27 bp)
+geneseeker_test_44_overlapping.fasta - Overlapping ORFs (27 bp)
+geneseeker_test_45_overlapping.fasta - Overlapping ORFs (27 bp)
+geneseeker_test_46_random.fasta - Random without ORFs (150 bp)
+geneseeker_test_47_random.fasta - Random without ORFs (180 bp)
+geneseeker_test_48_random.fasta - Random with 3 ORFs (90 bp)
+geneseeker_test_49_random.fasta - Random with 3 ORFs (132 bp)
+geneseeker_test_50_random.fasta - Random with 3 ORFs (87 bp)
+geneseeker_test_51_minimal_orf.fasta - Minimal ORF (3 codons) (9 bp)
+geneseeker_test_52_many_starts.fasta - Many STARTs, no STOP (75 bp)
+geneseeker_test_53_many_stops.fasta - Many STOPs, no START (45 bp)
+geneseeker_test_54_only_starts.fasta - Only START codons (30 bp)
+geneseeker_test_55_only_stops.fasta - Only STOP codons (30 bp)
