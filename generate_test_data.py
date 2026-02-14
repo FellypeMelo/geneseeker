@@ -308,6 +308,14 @@ def generate_test_datasets():
     return datasets
 
 
+def format_fasta_sequence(sequence, line_length=60):
+    """Formata sequência em linhas de 60 caracteres (padrão NCBI)."""
+    lines = []
+    for i in range(0, len(sequence), line_length):
+        lines.append(sequence[i : i + line_length])
+    return "\n".join(lines)
+
+
 def save_datasets(datasets):
     """Salva os datasets em arquivos."""
     os.makedirs(TEST_DATA_DIR, exist_ok=True)
@@ -329,7 +337,7 @@ def save_datasets(datasets):
 
             with open(filepath, "w") as f:
                 f.write(f">{filename} {description}\n")
-                f.write(sequence + "\n")
+                f.write(format_fasta_sequence(sequence) + "\n")
 
             manifest.write(f"{filename}.fasta - {description} ({len(sequence)} bp)\n")
             print(f"[OK] Gerado: {filename}.fasta ({len(sequence)} bp)")
