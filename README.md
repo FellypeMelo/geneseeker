@@ -24,6 +24,31 @@ A identificação de ORFs é crucial para:
 - **Relatório Estruturado**: Gera relatório em arquivo texto
 - **Sequência Completa**: Extrai a sequência completa de cada ORF encontrado
 
+## Estrutura de Dados
+
+### 📁 `test_data/` - Dados Sintéticos (Commitados)
+Contém **55+ arquivos FASTA fabricados** com ORFs conhecidos:
+- ✅ **Commitados no GitHub**
+- 🧪 **ORFs controlados** (quantidade e posição conhecidas)
+- 📊 **Casos de borda** (sem ORFs, muitos ORFs, sobrepostos)
+- 🎯 **Validação garantida**
+
+**Regenerar:**
+```bash
+python generate_test_data.py
+```
+
+### 📁 `data/` - Dados Reais (Gitignored)
+Para dados reais do NCBI, genomas, etc.:
+- 🚫 **Ignorado pelo Git** (não vai para GitHub)
+- 🧬 **Dados reais** de pesquisa
+- 💾 **Sem limite de tamanho**
+
+**Formatos recomendados:**
+- **Nucleotide FASTA** - Genomas completos ou segmentos
+- **Coding Region (CDS)** - Apenas regiões codificantes
+- **mRNA** - Transcritos processados
+
 ## Instalação
 
 ### Pré-requisitos
