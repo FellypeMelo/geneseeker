@@ -3,8 +3,8 @@
 ## Phase 1: Filtragem e Infraestrutura de Análise
 Implementar o filtro de tamanho mínimo e reorganizar o código para suportar análises adicionais.
 
-- [ ] Task: Preparar ambiente de testes para Milestone 3
-    - [ ] Criar arquivo de testes `tests/test_analysis.py`
+- [x] Task: Preparar ambiente de testes para Milestone 3
+    - [x] Criar arquivo de testes `tests/test_analysis.py`
 - [ ] Task: Implementar filtro de tamanho mínimo de ORF
     - [ ] Write Tests: Testar filtragem por diferentes comprimentos (bp e aa)
     - [ ] Implement Feature: Adicionar parâmetro `min_len` na busca de ORFs
