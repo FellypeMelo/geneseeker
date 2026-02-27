@@ -30,4 +30,4 @@ Traduzir sequências e identificar domínios funcionais.
 - [x] Task: Atualizar relatório para incluir novas análises [checkpoint: 40b2184]
     - [x] Write Tests: Validar novo formato do arquivo `orf_report.txt`
     - [x] Implement Feature: Adicionar filtros e metadados ao relatório gerado
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Finalização' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Finalização' (Protocol in workflow.md)
