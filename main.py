@@ -35,6 +35,31 @@ def read_fasta_file(file_path):
         return ""
 
 
+import re
+
+def identify_protein_domains(orf_info):
+    """
+    Identifica domínios proteicos conhecidos na sequência traduzida de um ORF.
+
+    Args:
+        orf_info: Tupla (start, end, seq, prot).
+
+    Returns:
+        list: Nomes dos domínios encontrados.
+    """
+    start, end, orf_seq, prot = orf_info
+    found_domains = []
+    
+    # Padrões Prosite (Simplificados para o exemplo)
+    # Zinc Finger C2H2: C-x(2,4)-C-x(12)-H-x(3,5)-H
+    ZINC_FINGER_REGEX = r"C.{2,4}C.{12}H.{3,5}H"
+    
+    if re.search(ZINC_FINGER_REGEX, prot):
+        found_domains.append("Zinc Finger")
+        
+    return found_domains
+
+
 def analyze_promoters(sequence, orf_info, upstream_len=50):
     """
     Analisa a região upstream de um ORF em busca de motivos de promotores.

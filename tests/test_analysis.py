@@ -1,7 +1,27 @@
 import os
 import pytest
 from Bio.Seq import Seq
-from main import find_orfs_in_frame, analyze_all_frames, read_fasta_file, generate_report, analyze_promoters, predict_splice_sites
+from main import find_orfs_in_frame, analyze_all_frames, read_fasta_file, generate_report, analyze_promoters, predict_splice_sites, identify_protein_domains
+
+def test_identify_protein_domains():
+    """Testa a identificação de domínios proteicos."""
+    # Sequência com motivo de dedo de zinco (C-x(2,4)-C-x(12)-H-x(3,5)-H)
+    # Exemplo: C CC DDDDDDDDDDDD H AAA H
+    protein_seq = "ACCCCDDDDDDDDDDDDHAAAH"
+    # ORF que traduz para isso (simplificado para o teste)
+    orf_info = (0, 69, "...", protein_seq)
+    
+    domains = identify_protein_domains(orf_info)
+    assert domains
+    assert "Zinc Finger" in domains
+
+def test_identify_protein_domains_none():
+    """Testa quando nenhum domínio é encontrado."""
+    protein_seq = "AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    orf_info = (0, 84, "...", protein_seq)
+    
+    domains = identify_protein_domains(orf_info)
+    assert not domains
 
 def test_predict_splice_sites():
     """Testa a predição de sítios de splicing (GT-AG)."""

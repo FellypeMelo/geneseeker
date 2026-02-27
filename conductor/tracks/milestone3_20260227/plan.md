@@ -24,9 +24,9 @@ Adicionar inteligência biológica para identificar regiões regulatórias e est
 ## Phase 3: Domínios Proteicos e Relatório Final
 Traduzir sequências e identificar domínios funcionais.
 
-- [ ] Task: Implementar identificação de domínios proteicos
-    - [ ] Write Tests: Testar tradução e busca de motivos proteicos conhecidos
-    - [ ] Implement Feature: Integrar busca de padrões Prosite
+- [x] Task: Implementar identificação de domínios proteicos
+    - [x] Write Tests: Testar tradução e busca de motivos proteicos conhecidos
+    - [x] Implement Feature: Integrar busca de padrões Prosite
 - [ ] Task: Atualizar relatório para incluir novas análises
     - [ ] Write Tests: Validar novo formato do arquivo `orf_report.txt`
     - [ ] Implement Feature: Adicionar filtros e metadados ao relatório gerado
