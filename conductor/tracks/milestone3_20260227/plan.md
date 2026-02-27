@@ -5,7 +5,7 @@ Implementar o filtro de tamanho mínimo e reorganizar o código para suportar an
 
 - [x] Task: Preparar ambiente de testes para Milestone 3 [checkpoint: 4e19c96]
     - [x] Criar arquivo de testes `tests/test_analysis.py`
-- [x] Task: Implementar filtro de tamanho mínimo de ORF
+- [x] Task: Implementar filtro de tamanho mínimo de ORF [checkpoint: de035a3]
     - [x] Write Tests: Testar filtragem por diferentes comprimentos (bp e aa)
     - [x] Implement Feature: Adicionar parâmetro `min_len` na busca de ORFs
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Filtragem' (Protocol in workflow.md)
