@@ -68,3 +68,14 @@ def test_main(sample_fasta_file, tmp_path):
         main_func()
     
     assert output_file.exists()
+
+def test_analyze_all_frames_min_length():
+    """Testa o filtro de tamanho mínimo de ORF usando 15 bp."""
+    sequence = "ATGCCCGGGAAATAATTATTTCCCGGGCAT" # ORF de 15 bp
+    # Normal return
+    res_normal = analyze_all_frames(sequence)
+    # Should not return the 15bp ORF since min_length is 20
+    res_filtered = analyze_all_frames(sequence, min_length=20)
+    
+    assert len(res_normal[0]) > 0
+    assert len(res_filtered[0]) == 0
