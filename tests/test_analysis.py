@@ -1,7 +1,36 @@
 import os
 import pytest
 from Bio.Seq import Seq
-from main import find_orfs_in_frame, analyze_all_frames, read_fasta_file, generate_report
+from main import find_orfs_in_frame, analyze_all_frames, read_fasta_file, generate_report, analyze_promoters
+
+def test_analyze_promoters():
+    """Testa a análise de motivos em regiões upstream."""
+    # Sequência com TATA box (TATAAT) na região upstream
+    # TATA box geralmente em -10 (Pribnow box em procariotos)
+    # Upstream: ...TATAAT... [ATG]
+    sequence = "CCCGGG TATAAT GGGCCC " + "ATG" + "AAATAA"
+    # sequence = "CCCGGGTATAATGGGCCCATGAAATAA"
+    sequence = sequence.replace(" ", "")
+    
+    # Encontra o ORF
+    results = analyze_all_frames(sequence)
+    orf_info = results[0][0] # Frame 0, primeiro ORF
+    
+    # Analisa promotores
+    promoter_info = analyze_promoters(sequence, orf_info)
+    
+    assert promoter_info["found_motifs"]
+    assert "TATAAT" in promoter_info["found_motifs"]
+    assert promoter_info["upstream_seq"] != ""
+
+def test_analyze_promoters_no_motif():
+    """Testa análise em região sem motivos conhecidos."""
+    sequence = "GGGGGGGGGGGGGGGGGGGG" + "ATG" + "AAATAA"
+    results = analyze_all_frames(sequence)
+    orf_info = results[2][0] # Está no Quadro 2
+    
+    promoter_info = analyze_promoters(sequence, orf_info)
+    assert not promoter_info["found_motifs"]
 
 def test_find_orfs_with_min_len():
     """Testa a filtragem de ORFs por tamanho mínimo."""

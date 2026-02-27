@@ -35,6 +35,42 @@ def read_fasta_file(file_path):
         return ""
 
 
+def analyze_promoters(sequence, orf_info, upstream_len=50):
+    """
+    Analisa a região upstream de um ORF em busca de motivos de promotores.
+
+    Args:
+        sequence: Sequência de DNA original.
+        orf_info: Tupla (start, end, seq, prot).
+        upstream_len: Tamanho da região upstream a ser analisada.
+
+    Returns:
+        dict: Informações sobre a região upstream e motivos encontrados.
+    """
+    start, end, orf_seq, prot = orf_info
+    
+    # Motivos conhecidos (Simplificado)
+    # TATAAT: Pribnow box (Procariotos)
+    # TTGACA: -35 box (Procariotos)
+    # TATAAA: TATA box (Eucariotos)
+    KNOWN_MOTIFS = ["TATAAT", "TTGACA", "TATAAA"]
+    
+    # Extrai região upstream
+    upstream_start = max(0, start - upstream_len)
+    upstream_seq = sequence[upstream_start:start].upper()
+    
+    found_motifs = []
+    for motif in KNOWN_MOTIFS:
+        if motif in upstream_seq:
+            found_motifs.append(motif)
+            
+    return {
+        "upstream_seq": upstream_seq,
+        "found_motifs": found_motifs,
+        "start_pos": upstream_start
+    }
+
+
 def find_orfs_in_frame(sequence, frame, min_length=0):
     """
     Busca ORFs em um quadro de leitura específico.
