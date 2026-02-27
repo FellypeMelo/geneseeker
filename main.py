@@ -233,13 +233,14 @@ def analyze_all_frames(sequence, min_length=0):
     return results
 
 
-def generate_report(results, output_file="orf_report.txt"):
+def generate_report(results, output_file="orf_report.txt", sequence=""):
     """
-    Gera relatório estruturado em arquivo texto.
+    Gera relatório estruturado em arquivo texto incluindo novas análises.
 
     Args:
         results: Dicionário com resultados dos ORFs (todos os 6 quadros)
         output_file: Nome do arquivo de saída
+        sequence: Sequência original (opcional, para análise de promotores)
     """
     with open(output_file, "w", encoding="utf-8") as f:
         f.write("RELATÓRIO GENESEEKER - IDENTIFICAÇÃO DE ORFs\n")
@@ -254,7 +255,25 @@ def generate_report(results, output_file="orf_report.txt"):
 
             if orfs:
                 for start, end, seq, prot in orfs:
-                    f.write(f"  Posição {start}-{end} ({len(seq)} bp) -> Prot: {prot[:20]}{'...' if len(prot)>20 else ''}\n")
+                    f.write(f"  ORF em {start}-{end} ({len(seq)} bp):\n")
+                    f.write(f"    Tradução: {prot[:50]}{'...' if len(prot)>50 else ''}\n")
+                    
+                    # Análises Adicionais
+                    if sequence:
+                        promoter_info = analyze_promoters(sequence, (start, end, seq, prot))
+                        if promoter_info["found_motifs"]:
+                            f.write(f"    Motivos Upstream: {', '.join(promoter_info['found_motifs'])}\n")
+                    
+                    splice_info = predict_splice_sites((start, end, seq, prot))
+                    if splice_info["donor_sites"] or splice_info["acceptor_sites"]:
+                        f.write(f"    Splicing (Doador GT): {splice_info['donor_sites']}\n")
+                        f.write(f"    Splicing (Aceitador AG): {splice_info['acceptor_sites']}\n")
+                        
+                    domains = identify_protein_domains((start, end, seq, prot))
+                    if domains:
+                        f.write(f"    Domínios Proteicos: {', '.join(domains)}\n")
+                    
+                    f.write("\n")
             else:
                 f.write("  Nenhum ORF encontrado\n")
 
@@ -281,7 +300,7 @@ def main():
     results = analyze_all_frames(sequence, min_length=args.min_length)
 
     # Gera relatório
-    generate_report(results, args.output)
+    generate_report(results, args.output, sequence=sequence)
 
     print("\nAnálise concluída!")
 

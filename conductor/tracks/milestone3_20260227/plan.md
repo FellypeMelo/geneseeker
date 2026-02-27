@@ -27,7 +27,7 @@ Traduzir sequências e identificar domínios funcionais.
 - [x] Task: Implementar identificação de domínios proteicos [checkpoint: 72614e2]
     - [x] Write Tests: Testar tradução e busca de motivos proteicos conhecidos
     - [x] Implement Feature: Integrar busca de padrões Prosite
-- [ ] Task: Atualizar relatório para incluir novas análises
-    - [ ] Write Tests: Validar novo formato do arquivo `orf_report.txt`
-    - [ ] Implement Feature: Adicionar filtros e metadados ao relatório gerado
+- [x] Task: Atualizar relatório para incluir novas análises
+    - [x] Write Tests: Validar novo formato do arquivo `orf_report.txt`
+    - [x] Implement Feature: Adicionar filtros e metadados ao relatório gerado
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Finalização' (Protocol in workflow.md)

@@ -135,19 +135,37 @@ def test_read_fasta_file_error():
     assert seq == ""
 
 def test_generate_report(tmp_path):
-    """Testa a geração do relatório."""
-    results = {
-        0: [(0, 12, "ATGCGATACTGA", "MRY*")],
-        1: []
-    }
+    """Testa a geração do relatório com novas análises."""
+    # Motivo Upstream: TATAAT
+    # ORF: ATG (Start) + GT... (Splicing GT) + ...AG (Splicing AG) + ... + TAA (Stop)
+    # Proteína para Zinc Finger: C.{2,4}C.{12}H.{3,5}H
+    
+    # Vamos construir uma proteína que bate no regex:
+    # CCCCDDDDDDDDDDDDHAAAH (21 aa)
+    # DNA (simplificado): TGT TGT TGT TGT GAT GAT GAT GAT GAT GAT GAT GAT GAT GAT GAT GAT CAT GCT GCT GCT CAT
+    # Inserindo GT e AG para splicing:
+    # CCCCDDD... -> TGT TGT TGT TGT (GT!) GAT GAT ... (AG!) ...
+    
+    # Protein desired: ACC C C DDDDDDDDDDDD H AAA H
+    # A (GCT), C (TGT), D (GAT), H (CAT)
+    # DNA: ATG (Start) + GCT (A) + TGT (C1) + TGT + TGT + TGT (C2) + GAT*12 (D*12) + CAT (H1) + GCT*3 (A*3) + CAT (H2) + TAA (Stop)
+    
+    body_dna = "GCT" + "TGT" + "TGT" + "TGT" + "TGT" + "GACGACGACGACGACGACGACGACGACGACGACGAC" + "CAT" + "GCTGCTGCT" + "CAT"
+    
+    # sequence = TATAAT (6 bp) + ATG (3 bp) + body (54 bp) + TAA (3 bp) = 66 bp
+    sequence = "TATAAT" + "ATG" + body_dna + "TAA"
+    
+    results = analyze_all_frames(sequence)
+    
     report_file = tmp_path / "report.txt"
-    generate_report(results, output_file=str(report_file))
+    generate_report(results, output_file=str(report_file), sequence=sequence)
     
     assert os.path.exists(report_file)
     content = report_file.read_text(encoding="utf-8")
     assert "RELATÓRIO GENESEEKER" in content
-    assert "Total de ORFs encontrados: 1" in content
-    assert "Quadro de Leitura 0" in content
+    assert "Motivos Upstream: TATAAT" in content
+    assert "Splicing" in content
+    assert "Domínios Proteicos: Zinc Finger" in content
 
 def test_find_orfs_reverse_strand():
     """Testa a busca de ORFs na fita reversa (quadros 3-5)."""
