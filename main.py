@@ -44,7 +44,7 @@ def find_orfs_in_frame(sequence, frame):
         frame: Quadro de leitura (0, 1 ou 2)
 
     Returns:
-        list: Lista de tuplas (posição_inicio, posição_fim, sequência_orf)
+        list: Lista de tuplas (posição_inicio, posição_fim, sequência_orf, sequência_proteina)
     """
     orfs = []
     seq = str(sequence).upper()
@@ -63,7 +63,9 @@ def find_orfs_in_frame(sequence, frame):
                 stop_codon = seq[j : j + 3]
                 if stop_codon in STOP_CODONS:
                     orf_seq = seq[start_pos : j + 3]
-                    orfs.append((start_pos, j + 3, orf_seq))
+                    # Tradução usando Biopython
+                    protein_seq = str(Seq(orf_seq).translate())
+                    orfs.append((start_pos, j + 3, orf_seq, protein_seq))
                     i = j  # Continua busca após este ORF
                     break
                 j += 3
@@ -75,37 +77,53 @@ def find_orfs_in_frame(sequence, frame):
 
 def analyze_all_frames(sequence):
     """
-    Analisa todos os 3 quadros de leitura.
+    Analisa todos os 6 quadros de leitura (3 forward, 3 reverse complement).
 
     Args:
         sequence: Sequência de DNA a ser analisada
 
     Returns:
-        dict: Dicionário com resultados por quadro
+        dict: Dicionário com resultados por quadro (0 a 5)
     """
     results = {}
+    
+    seq_obj = Seq(sequence)
+    rev_comp = str(seq_obj.reverse_complement())
+    seq_len = len(sequence)
 
     print("=" * 60)
     print("GeneSeeker - Identificador de ORFs")
     print("=" * 60)
-    print(f"\nSequência analisada: {sequence}")
-    print(f"Comprimento: {len(sequence)} bp\n")
+    print(f"\nSequência analisada: {sequence[:30]}{'...' if len(sequence)>30 else ''} ({seq_len} bp)")
 
-    for frame in range(3):
-        orfs = find_orfs_in_frame(sequence, frame)
-        results[frame] = orfs
+    for frame in range(6):
+        if frame < 3:
+            orfs = find_orfs_in_frame(sequence, frame)
+            resultados_ajustados = orfs
+            tipo_fita = "Forward"
+        else:
+            # Quadros 3, 4 e 5 são a fita complementar reversa
+            orfs = find_orfs_in_frame(rev_comp, frame - 3)
+            resultados_ajustados = []
+            for start, end, orf_seq, protein_seq in orfs:
+                # Na fita reversa, o end (j+3) de rev complementa o start original inversamente
+                real_start = seq_len - end
+                real_end = seq_len - start
+                resultados_ajustados.append((real_start, real_end, orf_seq, protein_seq))
+            tipo_fita = "Reverse"
 
-        print(f"\nQuadro de Leitura {frame}:")
+        results[frame] = resultados_ajustados
+
+        print(f"\nQuadro de Leitura {frame} ({tipo_fita}):")
         print("-" * 40)
 
-        if orfs:
-            for start, end, orf_seq in orfs:
+        if resultados_ajustados:
+            for start, end, orf_seq, protein_seq in resultados_ajustados:
                 print(f"  ORF encontrado:")
                 print(f"    Posição: {start} - {end}")
                 print(f"    Comprimento: {len(orf_seq)} bp")
-                print(
-                    f"    Sequência: {orf_seq[:50]}{'...' if len(orf_seq) > 50 else ''}"
-                )
+                print(f"    Seq. DNA: {orf_seq[:30]}{'...' if len(orf_seq) > 30 else ''}")
+                print(f"    Seq. Prot: {protein_seq[:30]}{'...' if len(protein_seq) > 30 else ''}")
         else:
             print("  Nenhum ORF completo encontrado")
 
@@ -117,7 +135,7 @@ def generate_report(results, output_file="orf_report.txt"):
     Gera relatório estruturado em arquivo texto.
 
     Args:
-        results: Dicionário com resultados dos ORFs
+        results: Dicionário com resultados dos ORFs (todos os 6 quadros)
         output_file: Nome do arquivo de saída
     """
     with open(output_file, "w") as f:
@@ -132,8 +150,8 @@ def generate_report(results, output_file="orf_report.txt"):
             f.write("-" * 40 + "\n")
 
             if orfs:
-                for start, end, seq in orfs:
-                    f.write(f"  Posição {start}-{end} ({len(seq)} bp)\n")
+                for start, end, seq, prot in orfs:
+                    f.write(f"  Posição {start}-{end} ({len(seq)} bp) -> Prot: {prot[:20]}{'...' if len(prot)>20 else ''}\n")
             else:
                 f.write("  Nenhum ORF encontrado\n")
 
