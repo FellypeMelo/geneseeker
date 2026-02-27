@@ -8,7 +8,7 @@ Implementar o filtro de tamanho mínimo e reorganizar o código para suportar an
 - [x] Task: Implementar filtro de tamanho mínimo de ORF [checkpoint: de035a3]
     - [x] Write Tests: Testar filtragem por diferentes comprimentos (bp e aa)
     - [x] Implement Feature: Adicionar parâmetro `min_len` na busca de ORFs
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Filtragem' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Filtragem' (Protocol in workflow.md)
 
 ## Phase 2: Análise de Promotores e Splicing
 Adicionar inteligência biológica para identificar regiões regulatórias e estruturais.
