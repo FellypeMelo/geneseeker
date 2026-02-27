@@ -19,7 +19,7 @@ Adicionar inteligência biológica para identificar regiões regulatórias e est
 - [x] Task: Implementar predição de Splice Sites (GT-AG) [checkpoint: 55072be]
     - [x] Write Tests: Testar identificação de sítios doadores e aceitadores
     - [x] Implement Feature: Adicionar lógica de predição de splicing básico
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Bio-Inteligência' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Bio-Inteligência' (Protocol in workflow.md)
 
 ## Phase 3: Domínios Proteicos e Relatório Final
 Traduzir sequências e identificar domínios funcionais.

@@ -187,11 +187,21 @@ def analyze_all_frames(sequence, min_length=0):
 
         if resultados_ajustados:
             for start, end, orf_seq, protein_seq in resultados_ajustados:
+                # Análises adicionais para verificação
+                promoter_info = analyze_promoters(sequence if frame < 3 else rev_comp, (start, end, orf_seq, protein_seq))
+                splice_info = predict_splice_sites((start, end, orf_seq, protein_seq))
+                
                 print(f"  ORF encontrado:")
                 print(f"    Posição: {start} - {end}")
                 print(f"    Comprimento: {len(orf_seq)} bp")
                 print(f"    Seq. DNA: {orf_seq[:30]}{'...' if len(orf_seq) > 30 else ''}")
                 print(f"    Seq. Prot: {protein_seq[:30]}{'...' if len(protein_seq) > 30 else ''}")
+                
+                if promoter_info["found_motifs"]:
+                    print(f"    Motivos Upstream: {', '.join(promoter_info['found_motifs'])}")
+                
+                if splice_info["donor_sites"] or splice_info["acceptor_sites"]:
+                    print(f"    Sítios Splicing: Doador(GT) em {splice_info['donor_sites']}, Aceitador(AG) em {splice_info['acceptor_sites']}")
         else:
             print("  Nenhum ORF completo encontrado")
 
