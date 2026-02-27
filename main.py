@@ -35,13 +35,14 @@ def read_fasta_file(file_path):
         return ""
 
 
-def find_orfs_in_frame(sequence, frame):
+def find_orfs_in_frame(sequence, frame, min_length=0):
     """
     Busca ORFs em um quadro de leitura específico.
 
     Args:
         sequence: Sequência de DNA (string)
         frame: Quadro de leitura (0, 1 ou 2)
+        min_length: Tamanho mínimo da ORF em pb
 
     Returns:
         list: Lista de tuplas (posição_inicio, posição_fim, sequência_orf, sequência_proteina)
@@ -63,9 +64,10 @@ def find_orfs_in_frame(sequence, frame):
                 stop_codon = seq[j : j + 3]
                 if stop_codon in STOP_CODONS:
                     orf_seq = seq[start_pos : j + 3]
-                    # Tradução usando Biopython
-                    protein_seq = str(Seq(orf_seq).translate())
-                    orfs.append((start_pos, j + 3, orf_seq, protein_seq))
+                    if len(orf_seq) >= min_length:
+                        # Tradução usando Biopython
+                        protein_seq = str(Seq(orf_seq).translate())
+                        orfs.append((start_pos, j + 3, orf_seq, protein_seq))
                     i = j  # Continua busca após este ORF
                     break
                 j += 3
@@ -75,12 +77,13 @@ def find_orfs_in_frame(sequence, frame):
     return orfs
 
 
-def analyze_all_frames(sequence):
+def analyze_all_frames(sequence, min_length=0):
     """
     Analisa todos os 6 quadros de leitura (3 forward, 3 reverse complement).
 
     Args:
         sequence: Sequência de DNA a ser analisada
+        min_length: Tamanho mínimo do ORF
 
     Returns:
         dict: Dicionário com resultados por quadro (0 a 5)
@@ -98,12 +101,12 @@ def analyze_all_frames(sequence):
 
     for frame in range(6):
         if frame < 3:
-            orfs = find_orfs_in_frame(sequence, frame)
+            orfs = find_orfs_in_frame(sequence, frame, min_length)
             resultados_ajustados = orfs
             tipo_fita = "Forward"
         else:
             # Quadros 3, 4 e 5 são a fita complementar reversa
-            orfs = find_orfs_in_frame(rev_comp, frame - 3)
+            orfs = find_orfs_in_frame(rev_comp, frame - 3, min_length)
             resultados_ajustados = []
             for start, end, orf_seq, protein_seq in orfs:
                 # Na fita reversa, o end (j+3) de rev complementa o start original inversamente
@@ -163,6 +166,7 @@ def main():
     parser = argparse.ArgumentParser(description="GeneSeeker - Identificador de ORFs em sequências de DNA")
     parser.add_argument("input_file", help="Caminho para o arquivo FASTA contendo a sequência de DNA.")
     parser.add_argument("-o", "--output", default="orf_report.txt", help="Nome do arquivo de saída para o relatório (padrão: orf_report.txt)")
+    parser.add_argument("--min-length", type=int, default=0, help="Tamanho mínimo da ORF em pares de bases (bp)")
     
     args = parser.parse_args()
 
@@ -174,7 +178,7 @@ def main():
         return
 
     # Analisa todos os quadros
-    results = analyze_all_frames(sequence)
+    results = analyze_all_frames(sequence, min_length=args.min_length)
 
     # Gera relatório
     generate_report(results, args.output)
