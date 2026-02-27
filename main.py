@@ -8,12 +8,31 @@ Um ORF é uma sequência de DNA que começa com um códon de início (ATG)
 e termina com um códon de parada (TAA, TAG ou TGA).
 """
 
+import argparse
 from Bio.Seq import Seq
-
+from Bio import SeqIO
 
 # Constantes
 START_CODON = "ATG"
 STOP_CODONS = ["TAA", "TAG", "TGA"]
+
+
+def read_fasta_file(file_path):
+    """
+    Lê uma sequência de um arquivo FASTA.
+
+    Args:
+        file_path: Caminho para o arquivo FASTA.
+
+    Returns:
+        str: Sequência de DNA.
+    """
+    try:
+        record = SeqIO.read(file_path, "fasta")
+        return str(record.seq)
+    except Exception as e:
+        print(f"Erro ao ler arquivo FASTA: {e}")
+        return ""
 
 
 def find_orfs_in_frame(sequence, frame):
@@ -123,14 +142,24 @@ def generate_report(results, output_file="orf_report.txt"):
 
 def main():
     """Função principal do programa."""
-    # Sequência de exemplo com ORFs
-    test_sequence = "ATGCGATACTGAATGCCCTAGATGAAATAA"
+    parser = argparse.ArgumentParser(description="GeneSeeker - Identificador de ORFs em sequências de DNA")
+    parser.add_argument("input_file", help="Caminho para o arquivo FASTA contendo a sequência de DNA.")
+    parser.add_argument("-o", "--output", default="orf_report.txt", help="Nome do arquivo de saída para o relatório (padrão: orf_report.txt)")
+    
+    args = parser.parse_args()
+
+    print(f"Lendo sequência do arquivo: {args.input_file}")
+    sequence = read_fasta_file(args.input_file)
+    
+    if not sequence:
+        print("Erro: Sequência inválida ou arquivo vazio.")
+        return
 
     # Analisa todos os quadros
-    results = analyze_all_frames(test_sequence)
+    results = analyze_all_frames(sequence)
 
     # Gera relatório
-    generate_report(results)
+    generate_report(results, args.output)
 
     print("\nAnálise concluída!")
 
