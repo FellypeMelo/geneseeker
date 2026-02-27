@@ -159,17 +159,17 @@ geneseeker/
 - [x] Gerar relatório simples
 - [x] Documentação inicial
 
-#### Milestone 2: Melhorias de Funcionalidade 🚧
-- [ ] Ler sequências de arquivos FASTA
-- [ ] Tradução de ORFs para sequências de aminoácidos
-- [ ] Análise de ambas as fitas (forward e reverse)
-- [ ] Seis quadros de leitura (3 forward + 3 reverse)
+#### Milestone 2: Melhorias de Funcionalidade ✅
+- [x] Ler sequências de arquivos FASTA
+- [x] Tradução de ORFs para sequências de aminoácidos
+- [x] Análise de ambas as fitas (forward e reverse)
+- [x] Seis quadros de leitura (3 forward + 3 reverse)
 
-#### Milestone 3: Filtros e Análises 📊
-- [ ] Filtrar ORFs por tamanho mínimo
-- [ ] Análise de região upstream (promotores)
-- [ ] Predição de splice sites (para eucariotos)
-- [ ] Identificação de domínios proteicos
+#### Milestone 3: Filtros e Análises ✅
+- [x] Filtrar ORFs por tamanho mínimo
+- [x] Análise de região upstream (promotores)
+- [x] Predição de splice sites (para eucariotos)
+- [x] Identificação de domínios proteicos
 
 #### Milestone 4: Integração e Automação 🔄
 - [ ] Pipeline automatizado com FastaFlow
@@ -233,11 +233,10 @@ Identificar regiões codificantes para modificação.
 
 ## Próximos Passos Recomendados
 
-1. **Adicionar fita reversa**: Implementar complementar reversa
-2. **Tradução proteica**: Converter ORFs em sequências de aminoácidos
-3. **Filtros**: Implementar tamanho mínimo e máximo
-4. **FASTA input**: Ler de arquivos reais
-5. **BLAST integration**: Comparar com bancos de dados
+1. **Integração FastaFlow**: Pipeline automatizado
+2. **Integração DB (BLAST)**: Comparar com bancos de dados
+3. **Anotação Funcional**: Relatório automatizado
+4. **Interface Gráfica**: GUI/Web dashboard para ORFs
 
 ## Conceitos Relacionados
 
