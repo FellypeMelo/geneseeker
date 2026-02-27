@@ -5,9 +5,10 @@
 
 ## Frameworks e Bibliotecas
 - **Biopython**: Utilizado para manipulação avançada de sequências biológicas, leitura/escrita de arquivos FASTA e cálculos de complementaridade.
+- **re (Python Standard Library)**: Utilizado para busca de padrões de motivos proteicos via expressões regulares.
 
 ## Armazenamento de Dados
 - **Sistema de Arquivos**: O projeto utiliza o sistema de arquivos para gerenciar dados de entrada (arquivos FASTA em `data/` e `test_data/`) e saída (relatórios de ORFs).
 
 ## Arquitetura
-- **Script Modular**: O sistema é composto por scripts Python organizados em funções reaproveitáveis para análise de quadros de leitura, detecção de códons e geração de relatórios.
+- **Script Modular**: O sistema é composto por scripts Python organizados em funções reaproveitáveis para análise de quadros de leitura, detecção de códons, **análise de motivos regulatórios e predição estrutural**.
