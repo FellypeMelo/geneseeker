@@ -138,7 +138,7 @@ def generate_report(results, output_file="orf_report.txt"):
         results: Dicionário com resultados dos ORFs (todos os 6 quadros)
         output_file: Nome do arquivo de saída
     """
-    with open(output_file, "w") as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         f.write("RELATÓRIO GENESEEKER - IDENTIFICAÇÃO DE ORFs\n")
         f.write("=" * 60 + "\n\n")
 
