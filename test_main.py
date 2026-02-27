@@ -55,7 +55,8 @@ def test_generate_report(tmp_path):
     content = output_file.read_text(encoding="utf-8")
     
     assert "Total de ORFs encontrados: 2" in content
-    assert "Posição 0-12 (12 bp) -> Prot: MRY*" in content
+    assert "ORF em 0-12 (12 bp):" in content
+    assert "Tradução: MRY*" in content
     assert "Nenhum ORF encontrado" in content
 
 def test_read_fasta_file_error():
