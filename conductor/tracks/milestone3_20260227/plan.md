@@ -13,7 +13,7 @@ Implementar o filtro de tamanho mínimo e reorganizar o código para suportar an
 ## Phase 2: Análise de Promotores e Splicing
 Adicionar inteligência biológica para identificar regiões regulatórias e estruturais.
 
-- [x] Task: Implementar análise de região upstream (promotores)
+- [x] Task: Implementar análise de região upstream (promotores) [checkpoint: 53a134a]
     - [x] Write Tests: Validar extração de sequência upstream e busca de TATA box
     - [x] Implement Feature: Criar função para análise de motivos upstream
 - [ ] Task: Implementar predição de Splice Sites (GT-AG)
