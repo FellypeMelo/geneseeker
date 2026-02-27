@@ -10,7 +10,7 @@ Implementar o filtro de tamanho mínimo e reorganizar o código para suportar an
     - [x] Implement Feature: Adicionar parâmetro `min_len` na busca de ORFs
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Filtragem' (Protocol in workflow.md)
 
-## Phase 2: Análise de Promotores e Splicing
+## Phase 2: Análise de Promotores e Splicing [checkpoint: 141b006]
 Adicionar inteligência biológica para identificar regiões regulatórias e estruturais.
 
 - [x] Task: Implementar análise de região upstream (promotores) [checkpoint: 53a134a]
