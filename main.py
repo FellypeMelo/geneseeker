@@ -71,6 +71,35 @@ def analyze_promoters(sequence, orf_info, upstream_len=50):
     }
 
 
+def predict_splice_sites(orf_info):
+    """
+    Prediz potenciais sítios de splicing (GT-AG) dentro de um ORF.
+
+    Args:
+        orf_info: Tupla (start, end, seq, prot).
+
+    Returns:
+        dict: Listas de posições de doadores e aceitadores.
+    """
+    start, end, orf_seq, prot = orf_info
+    
+    donor_sites = []
+    acceptor_sites = []
+    
+    # Busca por GT (Doador) e AG (Aceitador)
+    for i in range(len(orf_seq) - 1):
+        dinucleotide = orf_seq[i : i + 2]
+        if dinucleotide == "GT":
+            donor_sites.append(i)
+        elif dinucleotide == "AG":
+            acceptor_sites.append(i)
+            
+    return {
+        "donor_sites": donor_sites,
+        "acceptor_sites": acceptor_sites
+    }
+
+
 def find_orfs_in_frame(sequence, frame, min_length=0):
     """
     Busca ORFs em um quadro de leitura específico.

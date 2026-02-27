@@ -1,7 +1,44 @@
 import os
 import pytest
 from Bio.Seq import Seq
-from main import find_orfs_in_frame, analyze_all_frames, read_fasta_file, generate_report, analyze_promoters
+from main import find_orfs_in_frame, analyze_all_frames, read_fasta_file, generate_report, analyze_promoters, predict_splice_sites
+
+def test_predict_splice_sites():
+    """Testa a predição de sítios de splicing (GT-AG)."""
+    # Sequência com doador (GT) e aceitador (AG)
+    # ORF: ATG CCC GT AAA AG GGG TAA (21 bp)
+    # Frame 0:
+    # ATG (0-3)
+    # CCC (3-6)
+    # GT (6-8)
+    # AAA (8-11)
+    # AG (11-13) - Opa, AG desalinhado pode quebrar triplos.
+    
+    # Vamos usar múltiplos de 3:
+    # ATG (3) CCC (3) GT A (3) AAA (3) AG G (3) TAA (3) = 21 bp
+    sequence = "ATG" + "CCC" + "GTA" + "AAA" + "AGG" + "TAA"
+    # sequence = "ATGCCCGTAAAAAGGTAA" (18 bp)
+    # GT na pos 6, AG na pos 12
+    
+    results = analyze_all_frames(sequence)
+    orf_info = results[0][0]
+    
+    splice_info = predict_splice_sites(orf_info)
+    
+    assert len(splice_info["donor_sites"]) >= 1
+    assert len(splice_info["acceptor_sites"]) >= 1
+    assert 6 in splice_info["donor_sites"] # GT na pos 6
+    assert 12 in splice_info["acceptor_sites"] # AG na pos 12
+
+def test_predict_splice_sites_no_sites():
+    """Testa predição em sequência sem GT ou AG."""
+    sequence = "ATG" + "CCCCCCCCCCCC" + "TAA"
+    results = analyze_all_frames(sequence)
+    orf_info = results[0][0]
+    
+    splice_info = predict_splice_sites(orf_info)
+    assert not splice_info["donor_sites"]
+    assert not splice_info["acceptor_sites"]
 
 def test_analyze_promoters():
     """Testa a análise de motivos em regiões upstream."""
