@@ -1,6 +1,6 @@
 # Implementation Plan: Milestone 3 - Filtros e Análises Avançadas
 
-## Phase 1: Filtragem e Infraestrutura de Análise
+## Phase 1: Filtragem e Infraestrutura de Análise [checkpoint: fcbdd66]
 Implementar o filtro de tamanho mínimo e reorganizar o código para suportar análises adicionais.
 
 - [x] Task: Preparar ambiente de testes para Milestone 3 [checkpoint: 4e19c96]
