@@ -16,7 +16,7 @@ Adicionar inteligência biológica para identificar regiões regulatórias e est
 - [x] Task: Implementar análise de região upstream (promotores) [checkpoint: 53a134a]
     - [x] Write Tests: Validar extração de sequência upstream e busca de TATA box
     - [x] Implement Feature: Criar função para análise de motivos upstream
-- [x] Task: Implementar predição de Splice Sites (GT-AG)
+- [x] Task: Implementar predição de Splice Sites (GT-AG) [checkpoint: 55072be]
     - [x] Write Tests: Testar identificação de sítios doadores e aceitadores
     - [x] Implement Feature: Adicionar lógica de predição de splicing básico
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Bio-Inteligência' (Protocol in workflow.md)
