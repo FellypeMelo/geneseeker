@@ -21,7 +21,7 @@ Adicionar inteligência biológica para identificar regiões regulatórias e est
     - [x] Implement Feature: Adicionar lógica de predição de splicing básico
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Bio-Inteligência' (Protocol in workflow.md)
 
-## Phase 3: Domínios Proteicos e Relatório Final
+## Phase 3: Domínios Proteicos e Relatório Final [checkpoint: e1d3f1c]
 Traduzir sequências e identificar domínios funcionais.
 
 - [x] Task: Implementar identificação de domínios proteicos [checkpoint: 72614e2]
