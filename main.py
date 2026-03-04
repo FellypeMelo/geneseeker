@@ -12,9 +12,5 @@ import argparse
 from Bio.Seq import Seq
 from Bio import SeqIO
 
-# Constantes
-START_CODON = "ATG" # Codifica Metionina 
-STOP_CODONS = ["TAA", "TAG", "TGA"] # Codons de Parada
-
 
 
