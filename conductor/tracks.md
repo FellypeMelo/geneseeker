@@ -6,7 +6,7 @@ Este arquivo registra o status das trilhas (milestones) de desenvolvimento sob a
 
 - [x] **Milestone 1: Fundação e Leitura FASTA**
 - [x] **Milestone 2: Tradução Proteica e Detecção de Códon STOP**
-- [ ] **Milestone 3: Análise de 6 Frames, Filtros e Relatórios JSON** (EM DESENVOLVIMENTO)
+- [x] **Milestone 3: Análise de 6 Frames, Filtros e Relatórios JSON** (EM DESENVOLVIMENTO)
   *Link: [./tracks/milestone3_20260227/](./tracks/milestone3_20260227/)*
 - [ ] **Milestone 4: Promotores, Splicing e Integração BLAST** (PLANEJADO)
 
