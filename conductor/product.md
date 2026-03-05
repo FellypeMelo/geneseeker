@@ -1,31 +1,28 @@
-# Initial Concept
-GeneSeeker is a tool for identifying Open Reading Frames (ORFs) in DNA sequences.
+# GeneSeeker - Definição do Produto
 
-# GeneSeeker - Product Guide
+## Missão Principal
+O GeneSeeker é um **Distinguished Software Engine** de bioinformática projetado para identificar Open Reading Frames (ORFs) com rigor matemático e precisão biológica, operando sob o framework AI-XP.
 
-## Project Vision
-GeneSeeker is a high-performance bioinformatics tool designed to identify Open Reading Frames (ORFs) in DNA sequences. It aims to bridge the gap between simple script-based analysis and complex annotation pipelines by providing a modular, accurate, and easy-to-use identification engine.
+## Público-Alvo
+- **Bioinformáticos**: Para análise rápida e precisa de genomas procarióticos e eucarióticos.
+- **Pesquisadores**: Como motor modular em pipelines de anotação genômica funcional.
+- **Desenvolvedores**: Como API Python robusta para integração em fluxos de dados científicos.
 
-## Target Audience
-- **Bioinformaticians**: Researchers analyzing genomic data for gene prediction and annotation.
-- **Students**: Learning about the structure of genomes and the translation process.
-- **Software Developers**: Building automated pipelines that require reliable ORF detection components.
+## Funcionalidades Core
+- **Identificação em 6 Quadros**: Varredura completa em fita direta e reversa (complemento reverso).
+- **Filtragem Inteligente**: Parâmetros de tamanho mínimo personalizáveis (bp ou aa).
+- **Tradução Automática**: Conversão instantânea de DNA em sequências de aminoácidos (proteínas).
+- **Análise Regulatória (Planned)**: Identificação de promotores upstream (TATA box, Pribnow box).
+- **Predição Estrutural (Planned)**: Detecção de sítios de splicing (GT-AG) para eucariotos.
+- **Relatórios Multi-Formato**: Saída em texto puro, CSV e JSON para interoperabilidade.
 
-## Core Features
-- **Full Strand Analysis**: Identification of ORFs across all six reading frames (3 forward + 3 reverse strands).
-- **Advanced Filtering**: Filtering of identified ORFs by minimum length (bp or aa) to reduce noise.
-- **Regulatory Analysis**: Identification of upstream promoter motifs (e.g., TATA box, Pribnow box) to validate gene expression potential.
-- **Splice Site Prediction**: Detection of canonical GT-AG splice junctions for eukaryotic genome support.
-- **Functional Annotation**: Basic identification of protein domains (e.g., Zinc Fingers) in translated ORF sequences.
-- **Protein Translation**: Automatic translation of identified DNA ORFs into amino acid sequences.
-- **FASTA Support**: Comprehensive support for reading from and writing to standard FASTA file formats.
-- **START/STOP Detection**: Precise identification of canonical start (ATG) and stop (TAA, TAG, TGA) codons.
+## Critérios de Sucesso
+- **Rigor Algorítmico**: Busca de ORFs com complexidade $O(n)$ por quadro de leitura.
+- **TDD Inviolável**: Cobertura de testes e PBT (Property-Based Testing) em 100% das regras biológicas.
+- **Interoperabilidade**: Conformidade com princípios FAIR (Findable, Accessible, Interoperable, Reusable).
 
-## Success Criteria
-- **High Accuracy**: 100% detection rate on synthetic test data and standard reference sequences.
-- **Fast Execution**: Optimized algorithms capable of processing whole bacterial genomes in seconds.
-- **Modular Design**: A clean Pythonic API that allows GeneSeeker to be easily integrated into larger bioinformatics workflows.
-
-## Roadmap
-- **DB Integration**: Automated comparison of discovered ORFs with external protein databases like BLAST.
-- **GUI/Web Interface**: A user-friendly dashboard for visualizing genome structure and ORF distribution.
+## Roadmap de Evolução
+- **Milestone 1**: Fundação, leitura FASTA e busca em 3 quadros (Completo).
+- **Milestone 2**: Tradução proteica e identificação de códons STOP (Completo).
+- **Milestone 3**: Análise de fita reversa (6 quadros), filtros e relatórios JSON (Em progresso).
+- **Milestone 4**: Análise de promotores, splicing e integração com BLAST (Planejado).

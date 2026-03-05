@@ -1,14 +1,20 @@
-# GeneSeeker - Pilha Tecnológica
+# GeneSeeker - Pilha Tecnológica (Tech Stack)
 
 ## Linguagem e Runtime
-- **Python 3.7+**: Linguagem principal pela sua vasta biblioteca de bioinformática e facilidade de manipulação de strings e sequências.
+- **Python 3.9+**: Linguagem principal com foco em tipagem estática opcional via `mypy` para garantir segurança e robustez científica.
 
-## Frameworks e Bibliotecas
-- **Biopython**: Utilizado para manipulação avançada de sequências biológicas, leitura/escrita de arquivos FASTA e cálculos de complementaridade.
-- **re (Python Standard Library)**: Utilizado para busca de padrões de motivos proteicos via expressões regulares.
+## Bibliotecas de Bioinformática
+- **Biopython (v1.81)**: Manipulação avançada de sequências biológicas, leitura/escrita de arquivos FASTA e cálculos de complementaridade reversa.
 
-## Armazenamento de Dados
-- **Sistema de Arquivos**: O projeto utiliza o sistema de arquivos para gerenciar dados de entrada (arquivos FASTA em `data/` e `test_data/`) e saída (relatórios de ORFs).
+## Qualidade de Código e Engenharia
+- **pytest**: Framework de testes unitários e de integração.
+- **Hypothesis**: Utilizado para **Property-Based Testing (PBT)**, validando invariantes biológicos (ex: toda ORF começa com ATG).
+- **mypy**: Verificação estática de tipos para garantir integridade de dados entre camadas.
+- **radon**: Monitoramento de complexidade ciclomática (limite máx: 15).
+- **mutmut**: **Mutation Testing** para validar a eficácia da suíte de testes contra bugs lógicos.
+- **black & flake8**: Padronização estética e linting rigoroso.
 
-## Arquitetura
-- **Script Modular**: O sistema é composto por scripts Python organizados em funções reaproveitáveis para análise de quadros de leitura, detecção de códons, **análise de motivos regulatórios e predição estrutural**.
+## Infraestrutura e Ferramentas
+- **SQLite** (opcional): Cache de anotações funcionais para grandes genomas.
+- **GitHub Actions**: Pipeline de CI/CD para execução automática de testes e auditoria de qualidade.
+- **import-linter**: Garantia de que as fronteiras da Clean Architecture não sejam violadas.

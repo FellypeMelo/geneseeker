@@ -1,14 +1,16 @@
-# Project Context
+# Índice de Contexto (GeneSeeker)
 
-## Definition
-- [Product Definition](./product.md)
-- [Product Guidelines](./product-guidelines.md)
-- [Tech Stack](./tech-stack.md)
+## Definição e Visão
+- [Visão Geral e Guia do Produto](./product.md)
+- [Diretrizes de Engenharia (Iron Laws)](./product-guidelines.md)
+- [Pilha Tecnológica (Tech Stack)](./tech-stack.md)
 
-## Workflow
-- [Workflow](./workflow.md)
-- [Code Style Guides](./code_styleguides/)
+## Arquitetura e Design
+- [Arquitetura do Sistema (Clean Architecture)](./architecture.md)
+- [Guia de Estilo Python (AI-XP)](./code_styleguides/python.md)
+- [Princípios Gerais de Código](./code_styleguides/general.md)
 
-## Management
-- [Tracks Registry](./tracks.md)
-- [Tracks Directory](./tracks/)
+## Governança e Operação
+- [Fluxo de Trabalho (TDD Agêntico)](./workflow.md)
+- [Registro de Trilhas (Milestones)](./tracks.md)
+- [Diretório de Trilhas Detalhadas](./tracks/)
