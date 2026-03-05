@@ -14,8 +14,8 @@ Este arquivo registra o status das trilhas (milestones) de desenvolvimento sob a
 
 ### Monitoramento de Progresso
 - **M3 - Fase 1**: Filtragem e Infra de Análise (Concluída)
-- **M3 - Fase 2**: Análise de Fita Reversa / 6 Frames (Em Progresso)
-- **M3 - Fase 3**: Relatórios JSON/CSV e Finalização (Planejada)
+- **M3 - Fase 2**: Análise de Fita Reversa / 6 Frames (Concluída)
+- **M3 - Fase 3**: Relatórios JSON/CSV e Finalização (Concluída)
 
 ---
 
