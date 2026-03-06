@@ -1,0 +1,8 @@
+{
+  "track_id": "core_orf_20260305",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-05T10:00:00Z",
+  "updated_at": "2026-03-05T10:00:00Z",
+  "description": "Implementação da lógica central de busca de ORFs (6 frames, fita reversa, filtragem) e tradução proteica"
+}

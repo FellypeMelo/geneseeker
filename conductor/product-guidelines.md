@@ -1,18 +1,25 @@
-# GeneSeeker - Diretrizes do Produto
+# GeneSeeker - Diretrizes de Engenharia e Produto
+
+## Leis Invioláveis (Iron Laws)
+
+Este projeto opera sob rigor técnico absoluto, regido pelas seguintes leis:
+
+1.  **TDD Mandatório**: Nunca modificar código sem um teste falhando primeiro. PBT (Property-Based Testing) é obrigatório para invariantes biológicos.
+2.  **Clean Architecture**: Camada de Domínio nunca importa infraestrutura. Módulos biológicos devem ser puros e testáveis.
+3.  **Zero Vibe Coding**: Decisões algorítmicas são justificadas por biologia e computação; nada é aceito sem compreensão profunda.
+4.  **KISS + YAGNI**: Proibido antecipar recursos não solicitados; funções com máx. 15 linhas lógicas.
+5.  **Rigor Matemático**: Algoritmos de busca devem ter complexidade $O(n)$ por quadro de leitura.
+6.  **Value Objects**: Usar classes tipadas (`Sequence`, `Orf`) em vez de strings brutas.
 
 ## Idioma e Comunicação
-- **Idioma Principal**: Português. Toda a interface de linha de comando (CLI), mensagens de erro e documentação técnica devem ser redigidas em português de forma clara e profissional.
-- **Tom de Voz**: Profissional, técnico e objetivo, adequado para um ambiente acadêmico e de pesquisa.
+- **Idioma Principal**: Português (CLI, Erros, Documentação).
+- **Tom de Voz**: Profissional, científico e técnico.
 
 ## Princípios de Experiência do Usuário (UX)
-- **CLI-First**: O foco principal é a eficiência na linha de comando. O uso de argumentos (`argparse`) deve ser priorizado sobre a edição manual de scripts.
-- **Feedback Informativo**: O usuário deve ser mantido informado sobre o progresso da análise (ex: barras de progresso para genomas grandes) e o status atual da execução.
-- **Convenção sobre Configuração**: O GeneSeeker deve funcionar com configurações padrão sensatas, minimizando a necessidade de ajustes para tarefas comuns de identificação de ORFs.
-
-## Tratamento de Erros
-- **Foco no Usuário**: Mensagens de erro devem ser amigáveis e acionáveis, explicando o que deu errado em termos biológicos ou de sistema (ex: "Arquivo FASTA mal formatado" em vez de apenas um `ValueError`).
-- **Robustez**: O programa deve validar as sequências de entrada antes de iniciar o processamento pesado.
+- **CLI-First**: Eficiência absoluta na linha de comando via `argparse`.
+- **Feedback Científico**: Relatórios detalhados com metadados (start, end, frame, strand).
+- **Tratamento de Erros**: Mensagens amigáveis para falhas de entrada (ex: "Bases inválidas encontradas em 'seq_1'").
 
 ## Estilo de Documentação
-- **Acadêmico/Formal**: A documentação deve incluir explicações detalhadas sobre os algoritmos de busca de ORFs, referências biológicas e justificativas teóricas para as escolhas de implementação.
-- **Rigor Científico**: Definições claras de termos como "Reading Frame", "Codon" e "ORF" devem estar presentes.
+- **Acadêmico/Formal**: Incluir referências biológicas e justificativas de design.
+- **AuditTrail**: Cada mudança deve ser rastreável a um requisito ou decisão algorítmica.

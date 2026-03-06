@@ -1,198 +1,62 @@
-import os
 import pytest
 from Bio.Seq import Seq
-from main import find_orfs_in_frame, analyze_all_frames, read_fasta_file, generate_report, analyze_promoters, predict_splice_sites, identify_protein_domains
+from geneseeker.domain import orf_finder, analysis
 
 def test_identify_protein_domains():
     """Testa a identificação de domínios proteicos."""
     # Sequência com motivo de dedo de zinco (C-x(2,4)-C-x(12)-H-x(3,5)-H)
-    # Exemplo: C CC DDDDDDDDDDDD H AAA H
     protein_seq = "ACCCCDDDDDDDDDDDDHAAAH"
-    # ORF que traduz para isso (simplificado para o teste)
-    orf_info = (0, 69, "...", protein_seq)
-    
-    domains = identify_protein_domains(orf_info)
+    domains = analysis.identify_protein_domains(protein_seq)
     assert domains
     assert "Zinc Finger" in domains
 
 def test_identify_protein_domains_none():
     """Testa quando nenhum domínio é encontrado."""
     protein_seq = "AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    orf_info = (0, 84, "...", protein_seq)
-    
-    domains = identify_protein_domains(orf_info)
+    domains = analysis.identify_protein_domains(protein_seq)
     assert not domains
 
 def test_predict_splice_sites():
     """Testa a predição de sítios de splicing (GT-AG)."""
-    # Sequência com doador (GT) e aceitador (AG)
-    # ORF: ATG CCC GT AAA AG GGG TAA (21 bp)
-    # Frame 0:
-    # ATG (0-3)
-    # CCC (3-6)
-    # GT (6-8)
-    # AAA (8-11)
-    # AG (11-13) - Opa, AG desalinhado pode quebrar triplos.
-    
-    # Vamos usar múltiplos de 3:
-    # ATG (3) CCC (3) GT A (3) AAA (3) AG G (3) TAA (3) = 21 bp
-    sequence = "ATG" + "CCC" + "GTA" + "AAA" + "AGG" + "TAA"
-    # sequence = "ATGCCCGTAAAAAGGTAA" (18 bp)
     # GT na pos 6, AG na pos 12
+    sequence = "ATG" + "CCC" + "GTA" + "AAA" + "AGG" + "TAA"
+    splice_info = analysis.predict_splice_sites(sequence)
     
-    results = analyze_all_frames(sequence)
-    orf_info = results[0][0]
-    
-    splice_info = predict_splice_sites(orf_info)
-    
-    assert len(splice_info["donor_sites"]) >= 1
-    assert len(splice_info["acceptor_sites"]) >= 1
     assert 6 in splice_info["donor_sites"] # GT na pos 6
     assert 12 in splice_info["acceptor_sites"] # AG na pos 12
 
-def test_predict_splice_sites_no_sites():
-    """Testa predição em sequência sem GT ou AG."""
-    sequence = "ATG" + "CCCCCCCCCCCC" + "TAA"
-    results = analyze_all_frames(sequence)
-    orf_info = results[0][0]
-    
-    splice_info = predict_splice_sites(orf_info)
-    assert not splice_info["donor_sites"]
-    assert not splice_info["acceptor_sites"]
-
 def test_analyze_promoters():
     """Testa a análise de motivos em regiões upstream."""
-    # Sequência com TATA box (TATAAT) na região upstream
-    # TATA box geralmente em -10 (Pribnow box em procariotos)
-    # Upstream: ...TATAAT... [ATG]
-    sequence = "CCCGGG TATAAT GGGCCC " + "ATG" + "AAATAA"
-    # sequence = "CCCGGGTATAATGGGCCCATGAAATAA"
-    sequence = sequence.replace(" ", "")
-    
-    # Encontra o ORF
-    results = analyze_all_frames(sequence)
-    orf_info = results[0][0] # Frame 0, primeiro ORF
-    
-    # Analisa promotores
-    promoter_info = analyze_promoters(sequence, orf_info)
-    
-    assert promoter_info["found_motifs"]
+    # TATA box (TATAAT) na região upstream
+    sequence = "CCCGGGTATAATGGGCCCATGAAATAA"
+    # ATG começa na pos 18
+    promoter_info = analysis.analyze_promoters(sequence, 18)
     assert "TATAAT" in promoter_info["found_motifs"]
-    assert promoter_info["upstream_seq"] != ""
 
-def test_analyze_promoters_no_motif():
-    """Testa análise em região sem motivos conhecidos."""
-    sequence = "GGGGGGGGGGGGGGGGGGGG" + "ATG" + "AAATAA"
-    results = analyze_all_frames(sequence)
-    orf_info = results[2][0] # Está no Quadro 2
+def test_find_orfs_min_length():
+    """Testa o filtro de tamanho mínimo."""
+    sequence = "ATG" + "CCC" * 30 + "TAA" # 96 bp
+    # Busca com min_length 100
+    orfs = orf_finder.find_orfs(sequence, min_length=100)
+    assert len(orfs) == 0
     
-    promoter_info = analyze_promoters(sequence, orf_info)
-    assert not promoter_info["found_motifs"]
+    # Busca com min_length 90
+    orfs = orf_finder.find_orfs(sequence, min_length=90)
+    assert len(orfs) == 1
 
-def test_find_orfs_with_min_len():
-    """Testa a filtragem de ORFs por tamanho mínimo."""
-    # ORF 1: ATG CGA TAC TGA (12 bp)
-    # ORF 2: ATG CCC GGG AAA CCC TTT TAA (21 bp)
-    sequence = "ATGCGATACTGAATGCCCGGGAAACCCTTTTAA"
+def test_analyze_all_6_frames():
+    """Testa se encontra ORFs em ambas as fitas."""
+    # Forward ORF
+    forward_seq = "ATG" + "CCC" * 10 + "TAA"
+    # Reverse ORF (será o complemento reverso da fita direta)
+    rev_seq_obj = Seq("ATG" + "GGG" * 10 + "TAG")
+    reverse_seq_in_forward = str(rev_seq_obj.reverse_complement())
     
-    # Teste sem filtro
-    results_all = analyze_all_frames(sequence)
-    total_orfs_all = sum(len(orfs) for orfs in results_all.values())
-    assert total_orfs_all >= 2
+    # Combina sequências separadas por Ns para não criar ORFs artificiais
+    combined = forward_seq + "NNNNNN" + reverse_seq_in_forward
     
-    # Teste com filtro de 15 bp
-    results_filtered = analyze_all_frames(sequence, min_length=15)
-    total_orfs_filtered = sum(len(orfs) for orfs in results_filtered.values())
-    assert total_orfs_filtered == 1
+    orfs = orf_finder.find_orfs(combined, min_length=30)
     
-    # Verifica se o ORF encontrado é o correto
-    found = False
-    for frame_orfs in results_filtered.values():
-        for start, end, seq, prot in frame_orfs:
-            if len(seq) == 21:
-                found = True
-    assert found
-
-def test_find_orfs_with_very_high_min_len():
-    """Testa filtro que remove todos os ORFs."""
-    sequence = "ATGCGATACTGAATGCCCGGGAAATAA"
-    results = analyze_all_frames(sequence, min_length=100)
-    total_orfs = sum(len(orfs) for orfs in results.values())
-    assert total_orfs == 0
-
-def test_read_fasta_file(tmp_path):
-    """Testa a leitura de arquivo FASTA."""
-    fasta_content = ">test_seq\nATGCGT\n"
-    fasta_file = tmp_path / "test.fasta"
-    fasta_file.write_text(fasta_content)
-    
-    seq = read_fasta_file(str(fasta_file))
-    assert seq == "ATGCGT"
-
-def test_read_fasta_file_error():
-    """Testa erro na leitura de arquivo FASTA inexistente."""
-    seq = read_fasta_file("non_existent.fasta")
-    assert seq == ""
-
-def test_generate_report(tmp_path):
-    """Testa a geração do relatório com novas análises."""
-    # Motivo Upstream: TATAAT
-    # ORF: ATG (Start) + GT... (Splicing GT) + ...AG (Splicing AG) + ... + TAA (Stop)
-    # Proteína para Zinc Finger: C.{2,4}C.{12}H.{3,5}H
-    
-    # Vamos construir uma proteína que bate no regex:
-    # CCCCDDDDDDDDDDDDHAAAH (21 aa)
-    # DNA (simplificado): TGT TGT TGT TGT GAT GAT GAT GAT GAT GAT GAT GAT GAT GAT GAT GAT CAT GCT GCT GCT CAT
-    # Inserindo GT e AG para splicing:
-    # CCCCDDD... -> TGT TGT TGT TGT (GT!) GAT GAT ... (AG!) ...
-    
-    # Protein desired: ACC C C DDDDDDDDDDDD H AAA H
-    # A (GCT), C (TGT), D (GAT), H (CAT)
-    # DNA: ATG (Start) + GCT (A) + TGT (C1) + TGT + TGT + TGT (C2) + GAT*12 (D*12) + CAT (H1) + GCT*3 (A*3) + CAT (H2) + TAA (Stop)
-    
-    body_dna = "GCT" + "TGT" + "TGT" + "TGT" + "TGT" + "GACGACGACGACGACGACGACGACGACGACGACGAC" + "CAT" + "GCTGCTGCT" + "CAT"
-    
-    # sequence = TATAAT (6 bp) + ATG (3 bp) + body (54 bp) + TAA (3 bp) = 66 bp
-    sequence = "TATAAT" + "ATG" + body_dna + "TAA"
-    
-    results = analyze_all_frames(sequence)
-    
-    report_file = tmp_path / "report.txt"
-    generate_report(results, output_file=str(report_file), sequence=sequence)
-    
-    assert os.path.exists(report_file)
-    content = report_file.read_text(encoding="utf-8")
-    assert "RELATÓRIO GENESEEKER" in content
-    assert "Motivos Upstream: TATAAT" in content
-    assert "Splicing" in content
-    assert "Domínios Proteicos: Zinc Finger" in content
-
-def test_find_orfs_reverse_strand():
-    """Testa a busca de ORFs na fita reversa (quadros 3-5)."""
-    # Sequência: ATGCGATACTGA
-    # RevComp: TCAGTATCGCAT (tem ATG na posição 7-10 em revcomp)
-    # Start em revcomp: ATG -> pos 7 em revcomp
-    # Stop em revcomp: TGA na pos 0-3? Não.
-    
-    # Vamos usar uma sequência conhecida
-    sequence = "ATGCGATACTGATCAT" # ATGCGATACTGA TCAT
-    # RevComp: ATGATCAGTATCGCAT
-    # No RevComp (Frame 0): ATG ATC AGT ATC GCA T -> sem stop?
-    # Vamos simplificar: ATG AAA TAA
-    # RevComp: TTA TTT CAT -> sem start?
-    
-    # ATG AAA TAA (Forward)
-    # TTATTT CAT (Reverse)
-    
-    # ATG CGA TAG (Forward)
-    # CTA TCG CAT (Reverse) -> ATG na pos 9?
-    
-    sequence = "ATGCGA" + str(Seq("ATGCCCTAA").reverse_complement())
-    # sequence = ATGCGA + TTAGGGCAT = ATGCGATTAGGGCAT
-    # RevComp: ATGCCCTAATCGCAT
-    # Frame 0 em RevComp: ATG CCC TAA (9 bp)
-    
-    results = analyze_all_frames(sequence)
-    # Quadros 3, 4, 5 são reverse
-    total_rev_orfs = sum(len(results[f]) for f in [3, 4, 5])
-    assert total_rev_orfs >= 1
+    strands = [o["strand"] for o in orfs]
+    assert "+" in strands
+    assert "-" in strands

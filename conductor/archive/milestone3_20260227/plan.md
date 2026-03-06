@@ -31,3 +31,6 @@ Traduzir sequências e identificar domínios funcionais.
     - [x] Write Tests: Validar novo formato do arquivo `orf_report.txt`
     - [x] Implement Feature: Adicionar filtros e metadados ao relatório gerado
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Finalização' (Protocol in workflow.md)
+
+## Phase: Review Fixes
+- [x] Task: Apply review suggestions (Refactor into geneseeker package, restore CLI) 9f6d732

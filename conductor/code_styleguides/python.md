@@ -1,37 +1,40 @@
-# Google Python Style Guide Summary
+# Guia de Estilo Python (GeneSeeker / AI-XP)
 
-This document summarizes key rules and best practices from the Google Python Style Guide.
+Este guia estende o Google Python Style Guide com restrições específicas para engenharia científica agêntica.
 
-## 1. Python Language Rules
-- **Linting:** Run `pylint` on your code to catch bugs and style issues.
-- **Imports:** Use `import x` for packages/modules. Use `from x import y` only when `y` is a submodule.
-- **Exceptions:** Use built-in exception classes. Do not use bare `except:` clauses.
-- **Global State:** Avoid mutable global state. Module-level constants are okay and should be `ALL_CAPS_WITH_UNDERSCORES`.
-- **Comprehensions:** Use for simple cases. Avoid for complex logic where a full loop is more readable.
-- **Default Argument Values:** Do not use mutable objects (like `[]` or `{}`) as default values.
-- **True/False Evaluations:** Use implicit false (e.g., `if not my_list:`). Use `if foo is None:` to check for `None`.
-- **Type Annotations:** Strongly encouraged for all public APIs.
+## 1. Tipagem e Segurança
+- **Type Hints**: Obrigatórios para todas as APIs públicas e internas (`mypy --strict`).
+- **Value Objects**: Sequências biológicas devem ser instâncias de `DnaSequence`, `ProteinSequence`, etc., nunca `str` brutas.
+- **Enums**: Usar para bases nitrogenadas, aminoácidos e quadros de leitura.
 
-## 2. Python Style Rules
-- **Line Length:** Maximum 80 characters.
-- **Indentation:** 4 spaces per indentation level. Never use tabs.
-- **Blank Lines:** Two blank lines between top-level definitions (classes, functions). One blank line between method definitions.
-- **Whitespace:** Avoid extraneous whitespace. Surround binary operators with single spaces.
-- **Docstrings:** Use `"""triple double quotes"""`. Every public module, function, class, and method must have a docstring.
-  - **Format:** Start with a one-line summary. Include `Args:`, `Returns:`, and `Raises:` sections.
-- **Strings:** Use f-strings for formatting. Be consistent with single (`'`) or double (`"`) quotes.
-- **`TODO` Comments:** Use `TODO(username): Fix this.` format.
-- **Imports Formatting:** Imports should be on separate lines and grouped: standard library, third-party, and your own application's imports.
+## 2. Estrutura e Complexidade
+- **SRP (Single Responsibility)**: Cada módulo/função deve ter estritamente uma única responsabilidade.
+- **Complexidade Ciclomática**: Limite máximo de **15** por função (monitorado via `radon`).
+- **Nesting Depth**: Máximo de **2** níveis de aninhamento.
+- **Tamanho de Funções**: Máximo de **15 linhas lógicas** por função.
 
-## 3. Naming
-- **General:** `snake_case` for modules, functions, methods, and variables.
-- **Classes:** `PascalCase`.
-- **Constants:** `ALL_CAPS_WITH_UNDERSCORES`.
-- **Internal Use:** Use a single leading underscore (`_internal_variable`) for internal module/class members.
+## 3. Documentação (Docstrings)
+- **Formato**: Google Style Docstrings obrigatórios.
+- **Conteúdo**: Documentar *por que* decisões algorítmicas foram tomadas, citando referências biológicas se necessário.
+- **Exemplo**:
+  ```python
+  def find_orfs(sequence: DnaSequence, min_len: int) -> List[Orf]:
+      """Procura ORFs em 6 frames com complexidade O(n).
+      
+      Args:
+          sequence: Objeto DnaSequence validado.
+          min_len: Comprimento mínimo em nucleotídeos.
+          
+      Returns:
+          Lista de objetos Orf encontrados.
+      """
+  ```
 
-## 4. Main
-- All executable files should have a `main()` function that contains the main logic, called from a `if __name__ == '__main__':` block.
+## 4. Testes e Invariantes
+- **Pytest**: Framework principal.
+- **Hypothesis (PBT)**: Usar para validar invariantes (ex: `len(translation(seq)) == len(seq) // 3`).
+- **Mutation Testing**: Obrigatório via `mutmut` para módulos de domínio.
 
-**BE CONSISTENT.** When editing code, match the existing style.
-
-*Source: [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)*
+## 5. Clean Architecture (Mandatos)
+- **Domínio Puro**: Módulos em `geneseeker.domain` não podem importar `infrastructure` ou `interface`.
+- **I/O Isolado**: Proibido usar `open()`, `print()` ou `logging` dentro de funções de domínio puro.
